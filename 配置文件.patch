@@ -1,0 +1,388 @@
+Index: server/bin/www
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server/bin/www	(date 1514450571000)
++++ server/bin/www	(date 1514450571000)
+@@ -0,0 +1,90 @@
++#!/usr/bin/env node
++
++/**
++ * Module dependencies.
++ */
++
++var app = require('../app');
++var debug = require('debug')('server:server');
++var http = require('http');
++
++/**
++ * Get port from environment and store in Express.
++ */
++
++var port = normalizePort(process.env.PORT || '3000');
++app.set('port', port);
++
++/**
++ * Create HTTP server.
++ */
++
++var server = http.createServer(app);
++
++/**
++ * Listen on provided port, on all network interfaces.
++ */
++
++server.listen(port);
++server.on('error', onError);
++server.on('listening', onListening);
++
++/**
++ * Normalize a port into a number, string, or false.
++ */
++
++function normalizePort(val) {
++  var port = parseInt(val, 10);
++
++  if (isNaN(port)) {
++    // named pipe
++    return val;
++  }
++
++  if (port >= 0) {
++    // port number
++    return port;
++  }
++
++  return false;
++}
++
++/**
++ * Event listener for HTTP server "error" event.
++ */
++
++function onError(error) {
++  if (error.syscall !== 'listen') {
++    throw error;
++  }
++
++  var bind = typeof port === 'string'
++    ? 'Pipe ' + port
++    : 'Port ' + port;
++
++  // handle specific listen errors with friendly messages
++  switch (error.code) {
++    case 'EACCES':
++      console.error(bind + ' requires elevated privileges');
++      process.exit(1);
++      break;
++    case 'EADDRINUSE':
++      console.error(bind + ' is already in use');
++      process.exit(1);
++      break;
++    default:
++      throw error;
++  }
++}
++
++/**
++ * Event listener for HTTP server "listening" event.
++ */
++
++function onListening() {
++  var addr = server.address();
++  var bind = typeof addr === 'string'
++    ? 'pipe ' + addr
++    : 'port ' + addr.port;
++  debug('Listening on ' + bind);
++}
+Index: server/public/js/cp.min.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server/public/js/cp.min.js	(date 1514454678000)
++++ server/public/js/cp.min.js	(date 1514454678000)
+@@ -0,0 +1,1 @@
++!function(t){var n={};function r(e){if(n[e])return n[e].exports;var o=n[e]={"i":e,"l":!1,"exports":{}};return t[e].call(o.exports,o,o.exports,r),o.l=!0,o.exports}r.m=t,r.c=n,r.d=function(t,n,e){r.o(t,n)||Object.defineProperty(t,n,{"configurable":!1,"enumerable":!0,"get":e})},r.n=function(t){var n=t&&t.__esModule?function(){return t["default"]}:function(){return t};return r.d(n,"a",n),n},r.o=function(t,n){return Object.prototype.hasOwnProperty.call(t,n)},r.p="",r(r.s=0)}([function(t,n,r){t.exports=r(1)},function(t,n,r){"use strict"}]);
+\ No newline at end of file
+Index: server/public/js/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server/public/js/index.js	(date 1514454678000)
++++ server/public/js/index.js	(date 1514454678000)
+@@ -0,0 +1,87 @@
++/******/ (function(modules) { // webpackBootstrap
++/******/ 	// The module cache
++/******/ 	var installedModules = {};
++/******/
++/******/ 	// The require function
++/******/ 	function __webpack_require__(moduleId) {
++/******/
++/******/ 		// Check if module is in cache
++/******/ 		if(installedModules[moduleId]) {
++/******/ 			return installedModules[moduleId].exports;
++/******/ 		}
++/******/ 		// Create a new module (and put it into the cache)
++/******/ 		var module = installedModules[moduleId] = {
++/******/ 			i: moduleId,
++/******/ 			l: false,
++/******/ 			exports: {}
++/******/ 		};
++/******/
++/******/ 		// Execute the module function
++/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
++/******/
++/******/ 		// Flag the module as loaded
++/******/ 		module.l = true;
++/******/
++/******/ 		// Return the exports of the module
++/******/ 		return module.exports;
++/******/ 	}
++/******/
++/******/
++/******/ 	// expose the modules object (__webpack_modules__)
++/******/ 	__webpack_require__.m = modules;
++/******/
++/******/ 	// expose the module cache
++/******/ 	__webpack_require__.c = installedModules;
++/******/
++/******/ 	// define getter function for harmony exports
++/******/ 	__webpack_require__.d = function(exports, name, getter) {
++/******/ 		if(!__webpack_require__.o(exports, name)) {
++/******/ 			Object.defineProperty(exports, name, {
++/******/ 				configurable: false,
++/******/ 				enumerable: true,
++/******/ 				get: getter
++/******/ 			});
++/******/ 		}
++/******/ 	};
++/******/
++/******/ 	// getDefaultExport function for compatibility with non-harmony modules
++/******/ 	__webpack_require__.n = function(module) {
++/******/ 		var getter = module && module.__esModule ?
++/******/ 			function getDefault() { return module['default']; } :
++/******/ 			function getModuleExports() { return module; };
++/******/ 		__webpack_require__.d(getter, 'a', getter);
++/******/ 		return getter;
++/******/ 	};
++/******/
++/******/ 	// Object.prototype.hasOwnProperty.call
++/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
++/******/
++/******/ 	// __webpack_public_path__
++/******/ 	__webpack_require__.p = "";
++/******/
++/******/ 	// Load entry module and return exports
++/******/ 	return __webpack_require__(__webpack_require__.s = 0);
++/******/ })
++/************************************************************************/
++/******/ ([
++/* 0 */
++/***/ (function(module, exports, __webpack_require__) {
++
++module.exports = __webpack_require__(1);
++
++
++/***/ }),
++/* 1 */
++/***/ (function(module, exports, __webpack_require__) {
++
++"use strict";
++/**
++ *
++ * @authors  Nealyang(nealyang231@gmail.com)
++ * @date    2017/12/28
++ * @version 1.0.0
++ */
++
++
++/***/ })
++/******/ ]);
+\ No newline at end of file
+Index: server/routes/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server/routes/index.js	(date 1514450571000)
++++ server/routes/index.js	(date 1514450571000)
+@@ -0,0 +1,9 @@
++var express = require('express');
++var router = express.Router();
++
++/* GET home page. */
++router.get('/', function(req, res, next) {
++  res.render('index', { title: 'Express' });
++});
++
++module.exports = router;
+Index: server/routes/users.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server/routes/users.js	(date 1514450571000)
++++ server/routes/users.js	(date 1514450571000)
+@@ -0,0 +1,9 @@
++var express = require('express');
++var router = express.Router();
++
++/* GET users listing. */
++router.get('/', function(req, res, next) {
++  res.send('respond with a resource');
++});
++
++module.exports = router;
+Index: server/views/error.ejs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server/views/error.ejs	(date 1514454678000)
++++ server/views/error.ejs	(date 1514454678000)
+@@ -0,0 +1,0 @@
+Index: server/views/index.ejs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server/views/index.ejs	(date 1514454678000)
++++ server/views/index.ejs	(date 1514454678000)
+@@ -0,0 +1,0 @@
+Index: server/app.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server/app.js	(date 1514450571000)
++++ server/app.js	(date 1514450571000)
+@@ -0,0 +1,46 @@
++var express = require('express');
++var path = require('path');
++var favicon = require('serve-favicon');
++var logger = require('morgan');
++var cookieParser = require('cookie-parser');
++var bodyParser = require('body-parser');
++
++var index = require('./routes/index');
++var users = require('./routes/users');
++
++var app = express();
++
++// view engine setup
++app.set('views', path.join(__dirname, 'views'));
++app.set('view engine', 'ejs');
++
++// uncomment after placing your favicon in /public
++//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
++app.use(logger('dev'));
++app.use(bodyParser.json());
++app.use(bodyParser.urlencoded({ extended: false }));
++app.use(cookieParser());
++app.use(express.static(path.join(__dirname, 'public')));
++
++app.use('/', index);
++app.use('/users', users);
++
++// catch 404 and forward to error handler
++app.use(function(req, res, next) {
++  var err = new Error('Not Found');
++  err.status = 404;
++  next(err);
++});
++
++// error handler
++app.use(function(err, req, res, next) {
++  // set locals, only providing error in development
++  res.locals.message = err.message;
++  res.locals.error = req.app.get('env') === 'development' ? err : {};
++
++  // render the error page
++  res.status(err.status || 500);
++  res.render('error');
++});
++
++module.exports = app;
+Index: server/package.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server/package.json	(date 1514450571000)
++++ server/package.json	(date 1514450571000)
+@@ -0,0 +1,17 @@
++{
++  "name": "server",
++  "version": "0.0.0",
++  "private": true,
++  "scripts": {
++    "start": "node ./bin/www"
++  },
++  "dependencies": {
++    "body-parser": "~1.18.2",
++    "cookie-parser": "~1.4.3",
++    "debug": "~2.6.9",
++    "ejs": "~2.5.7",
++    "express": "~4.15.5",
++    "morgan": "~1.9.0",
++    "serve-favicon": "~2.4.5"
++  }
++}
+Index: package.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- package.json	(date 1514454545000)
++++ package.json	(date 1514454545000)
+@@ -0,0 +1,47 @@
++{
++  "name": "es6_pratice",
++  "version": "1.0.0",
++  "description": "",
++  "main": "index.js",
++  "scripts": {
++    "test": "echo \"Error: no test specified\" && exit 1"
++  },
++  "repository": {
++    "type": "git",
++    "url": "git+https://github.com/Nealyang/ES6_partice.git"
++  },
++  "keywords": [
++    "es6"
++  ],
++  "author": "Nealyang",
++  "license": "ISC",
++  "bugs": {
++    "url": "https://github.com/Nealyang/ES6_partice/issues"
++  },
++  "homepage": "https://github.com/Nealyang/ES6_partice#readme",
++  "devDependencies": {
++    "babel-core": "^6.26.0",
++    "babel-loader": "^7.1.2",
++    "babel-preset-env": "^1.6.1",
++    "babel-preset-es2015": "^6.24.1",
++    "del": "^3.0.0",
++    "gulp": "^3.9.1",
++    "gulp-concat": "^2.6.1",
++    "gulp-if": "^2.0.2",
++    "gulp-live-server": "0.0.31",
++    "gulp-livereload": "^3.8.1",
++    "gulp-plumber": "^1.1.0",
++    "gulp-rename": "^1.2.2",
++    "gulp-sequence": "^0.4.6",
++    "gulp-uglify": "^3.0.0",
++    "gulp-util": "^3.0.8",
++    "require-dir": "^0.3.2",
++    "vinyl-named": "^1.1.0",
++    "webpack": "^3.10.0",
++    "webpack-stream": "^4.0.0",
++    "yargs": "^10.0.3"
++  },
++  "dependencies": {
++    "express": "^4.16.2"
++  }
++}
