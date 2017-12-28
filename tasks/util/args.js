@@ -1,39 +1,35 @@
-/**
- *
- * @authors  Nealyang(nealyang231@gmail.com)
- * @date    2017/12/28
- * @version 1.0.0
- */
-import yargs from 'yargs'
+import yargs from 'yargs';
 
 const args = yargs
 
     .option('production',{
         boolean:true,
         default:false,
-        description:'min all scripts'
+        describe:'min all scripts'
     })
 
     .option('watch',{
         boolean:true,
         default:false,
-        description:'watch all files'
+        describe:'watch all files'
     })
 
     .option('verbose',{
         boolean:true,
         default:false,
-        description:'log'
+        describe:'log'
+    })
+
+    .option('sourcemaps',{
+        describe:'force the creation of sroucemaps'
     })
 
     .option('port',{
         string:true,
-        default:9999,
-        description:'server port'
-    })
-
-    .option('sourcemaps',{
-        description:'force the creation of  sourcemaps'
+        default:8080,
+        describe:'server port'
     })
 
     .argv;
+
+export default args;
