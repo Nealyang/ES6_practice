@@ -13,3 +13,4 @@ class Test {
 
 let test = new Test();
 document.body.innerHTML = test.a;
+
