@@ -5,13 +5,5 @@
  * @version 1.0.0
  */
 import 'babel-polyfill'
-import './class/test'
-class Test {
-    constructor(){
-        this.a = 'hello world'
-    }
-}
-
-let test = new Test();
-document.body.innerHTML = test.a;
+import lottery from './lottery'
 

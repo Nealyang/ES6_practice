@@ -823,6 +823,521 @@ const 只能声明常量。这个常量对于引用型来说只是指针不能�
 
 ```
 
+### 类
+
+```javascript
+{
+  // 基本定义和生成实例
+  class Parent{
+    constructor(name='mukewang'){
+      this.name=name;
+    }
+  }
+  let v_parent=new Parent('v');
+  console.log('构造函数和实例',v_parent);
+}
+
+{
+  // 继承
+  class Parent{
+    constructor(name='mukewang'){
+      this.name=name;
+    }
+  }
+
+  class Child extends Parent{
+
+  }
+
+  console.log('继承',new Child());
+}
+
+{
+  // 继承传递参数
+  class Parent{
+    constructor(name='mukewang'){
+      this.name=name;
+    }
+  }
+
+  class Child extends Parent{
+    constructor(name='child'){
+      super(name);
+      this.type='child';
+    }
+  }
+
+  console.log('继承传递参数',new Child('hello'));
+}
+
+{
+  // getter,setter
+  class Parent{
+    constructor(name='mukewang'){
+      this.name=name;
+    }
+
+    get longName(){
+      return 'mk'+this.name
+    }
+
+    set longName(value){
+      this.name=value;
+    }
+  }
+
+  let v=new Parent();
+  console.log('getter',v.longName);
+  v.longName='hello';
+  console.log('setter',v.longName);
+}
+
+{
+  // 静态方法
+  class Parent{
+    constructor(name='mukewang'){
+      this.name=name;
+    }
+
+    static tell(){
+      console.log('tell');
+    }
+  }
+
+  Parent.tell();
+
+}
+
+{
+  // 静态属性
+  class Parent{
+    constructor(name='mukewang'){
+      this.name=name;
+    }
+
+    static tell(){
+      console.log('tell');
+    }
+  }
+
+  Parent.type='test';
+
+  console.log('静态属性',Parent.type);
+
+
+}
+
+```
+
+### promise
+
+```javascript
+{
+  // 基本定义
+  let ajax=function(callback){
+    console.log('执行');
+    setTimeout(function () {
+      callback&&callback.call()
+    }, 1000);
+  };
+  ajax(function(){
+    console.log('timeout1');
+  })
+}
+
+{
+  let ajax=function(){
+    console.log('执行2');
+    return new Promise(function(resolve,reject){
+      setTimeout(function () {
+        resolve()
+      }, 1000);
+    })
+  };
+
+  ajax().then(function(){
+    console.log('promise','timeout2');
+  })
+}
+
+{
+  let ajax=function(){
+    console.log('执行3');
+    return new Promise(function(resolve,reject){
+      setTimeout(function () {
+        resolve()
+      }, 1000);
+    })
+  };
+
+  ajax()
+    .then(function(){
+    return new Promise(function(resolve,reject){
+      setTimeout(function () {
+        resolve()
+      }, 2000);
+    });
+  })
+    .then(function(){
+    console.log('timeout3');
+  })
+}
+
+{
+  let ajax=function(num){
+    console.log('执行4');
+    return new Promise(function(resolve,reject){
+      if(num>5){
+        resolve()
+      }else{
+        throw new Error('出错了')
+      }
+    })
+  }
+
+  ajax(6).then(function(){
+    console.log('log',6);
+  }).catch(function(err){
+    console.log('catch',err);
+  });
+
+  ajax(3).then(function(){
+    console.log('log',3);
+  }).catch(function(err){
+    console.log('catch',err);
+  });
+}
+
+{
+  // 所有图片加载完再添加到页面
+  function loadImg(src){
+    return new Promise((resolve,reject)=>{
+      let img=document.createElement('img');
+      img.src=src;
+      img.onload=function(){
+        resolve(img);
+      }
+      img.onerror=function(err){
+        reject(err);
+      }
+    })
+  }
+
+  function showImgs(imgs){
+    imgs.forEach(function(img){
+      document.body.appendChild(img);
+    })
+  }
+
+  Promise.all([
+    loadImg('http://i4.buimg.com/567571/df1ef0720bea6832.png'),
+    loadImg('http://i4.buimg.com/567751/2b07ee25b08930ba.png'),
+    loadImg('http://i2.muimg.com/567751/5eb8190d6b2a1c9c.png')
+  ]).then(showImgs)
+
+}
+
+{
+  // 有一个图片加载完就添加到页面
+  function loadImg(src){
+    return new Promise((resolve,reject)=>{
+      let img=document.createElement('img');
+      img.src=src;
+      img.onload=function(){
+        resolve(img);
+      }
+      img.onerror=function(err){
+        reject(err);
+      }
+    })
+  }
+
+  function showImgs(img){
+    let p=document.createElement('p');
+    p.appendChild(img);
+    document.body.appendChild(p)
+  }
+
+  Promise.race([
+    loadImg('http://i4.buimg.com/567571/df1ef0720bea6832.png'),
+    loadImg('http://i4.buimg.com/567751/2b07ee25b08930ba.png'),
+    loadImg('http://i2.muimg.com/567751/5eb8190d6b2a1c9c.png')
+  ]).then(showImgs)
+
+}
+
+```
+### Iterator
+
+```javascript
+{
+  let arr=['hello','world'];
+  let map=arr[Symbol.iterator]();
+  console.log(map.next());
+  console.log(map.next());
+  console.log(map.next());
+}
+
+{
+  let obj={
+    start:[1,3,2],
+    end:[7,9,8],
+    [Symbol.iterator](){
+      let self=this;
+      let index=0;
+      let arr=self.start.concat(self.end);
+      let len=arr.length;
+      return {
+        next(){
+          if(index<len){
+            return {
+              value:arr[index++],
+              done:false
+            }
+          }else{
+            return {
+              value:arr[index++],
+              done:true
+            }
+          }
+        }
+      }
+    }
+  }
+  for(let key of obj){
+    console.log(key);
+  }
+}
+
+{
+  let arr=['hello','world'];
+  for(let value of arr){
+    console.log('value',value);
+  }
+}
+
+```
+
+### Generator
+
+异步编程的一种解决方案
+
+```javascript
+{
+  // genertaor基本定义
+  let tell=function* (){
+    yield 'a';
+    yield 'b';
+    return 'c'
+  };
+
+  let k=tell();
+
+  console.log(k.next());
+  console.log(k.next());
+  console.log(k.next());
+  console.log(k.next());
+}
+
+{
+  let obj={};
+  obj[Symbol.iterator]=function* (){
+    yield 1;
+    yield 2;
+    yield 3;
+  }
+
+  for(let value of obj){
+    console.log('value',value);
+  }
+}
+
+{
+  let state=function* (){
+    while(1){
+      yield 'A';
+      yield 'B';
+      yield 'C';
+    }
+  }
+  let status=state();
+  console.log(status.next());
+  console.log(status.next());
+  console.log(status.next());
+  console.log(status.next());
+  console.log(status.next());
+}
+
+// {
+//   let state=async function (){
+//     while(1){
+//       await 'A';
+//       await 'B';
+//       await 'C';
+//     }
+//   }
+//   let status=state();
+//   console.log(status.next());
+//   console.log(status.next());
+//   console.log(status.next());
+//   console.log(status.next());
+//   console.log(status.next());
+// }
+//
+
+{
+  let draw=function(count){
+    //具体抽奖逻辑
+    console.info(`剩余${count}次`)
+  }
+
+  let residue=function* (count){
+    while (count>0) {
+      count--;
+      yield draw(count);
+    }
+  }
+
+  let star=residue(5);
+  let btn=document.createElement('button');
+  btn.id='start';
+  btn.textContent='抽奖';
+  document.body.appendChild(btn);
+  document.getElementById('start').addEventListener('click',function(){
+    star.next();
+  },false)
+}
+
+{
+  // 长轮询
+  let ajax=function* (){
+    yield new Promise(function(resolve,reject){
+      setTimeout(function () {
+        resolve({code:0})
+      }, 200);
+    })
+  }
+
+  let pull=function(){
+    let genertaor=ajax();
+    let step=genertaor.next();
+    step.value.then(function(d){
+      if(d.code!=0){
+        setTimeout(function () {
+          console.info('wait');
+          pull()
+        }, 1000);
+      }else{
+        console.info(d);
+      }
+    })
+  }
+
+  pull();
+}
+
+```
+
+### Decorator
+是一个函数，修改类的行为，扩展类的功能，只在类的范畴中有用
+```javascript
+{
+  let readonly=function(target,name,descriptor){
+    descriptor.writable=false;
+    return descriptor
+  };
+
+  class Test{
+    @readonly
+    time(){
+      return '2017-03-11'
+    }
+  }
+
+  let test=new Test();
+
+  // test.time=function(){
+  //   console.log('reset time');
+  // };
+
+  console.log(test.time());
+}
+
+
+{
+  let typename=function(target,name,descriptor){
+    target.myname='hello';
+  }
+
+  @typename
+  class Test{
+
+  }
+
+  console.log('类修饰符',Test.myname);
+  // 第三方库修饰器的js库：core-decorators; npm install core-decorators
+}
+
+{
+  let log=(type)=>{
+    return function(target,name,descriptor){
+      let src_method=descriptor.value;
+      descriptor.value=(...arg)=>{
+        src_method.apply(target,arg);
+        console.info(`log ${type}`);
+      }
+    }
+  }
+
+  class AD{
+    @log('show')
+    show(){
+      console.info('ad is show')
+    }
+    @log('click')
+    click(){
+      console.info('ad is click');
+    }
+  }
+
+  let ad=new AD();
+  ad.show();
+  ad.click();
+}
+
+```
+
+### 模块化
+
+```javascript
+// export let A=123;
+//
+// export function test(){
+//   console.log('test');
+// }
+//
+// export class Hello{
+//   test(){
+//     console.log('class');
+//   }
+// }
+
+let A=123;
+let test=function(){
+  console.log('test');
+}
+class Hello{
+  test(){
+    console.log('class');
+  }
+}
+
+export default {
+  A,
+  test,
+  Hello
+}
+```
 
 
 
