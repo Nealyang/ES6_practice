@@ -1,4 +1,4 @@
-## ES6 PARTICE
+## ES6 PRATICE
 
 ### let const
 
